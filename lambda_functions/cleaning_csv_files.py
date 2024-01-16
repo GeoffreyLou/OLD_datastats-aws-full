@@ -58,11 +58,12 @@ def lambda_handler(event, context):
     try:
 
         # Informations de connexion à la BDD : 
-        conn = psycopg2.connect(database=database, 
-                        user=user, 
-                        password=password_db, 
-                        host=host, 
-                        port=port)
+        conn = psycopg2.connect(
+            database=database, 
+            user=user, 
+            password=password_db, 
+            host=host, 
+            port=port)
 
         s3_event = event['Records'][0]['s3']
         bucket_name = s3_event['bucket']['name']
@@ -114,10 +115,8 @@ def lambda_handler(event, context):
                                         .strip())
 
         # Création d'une colonne d'index temporaire pour éviter les pertes lors des merge à venir
-
         index = pd.Index(range(len(df)))
         df['index'] = list(index)
-
 
         # Récupérer le fichier CSV spécifié
         region_file_path = "data-files/reg_dep_com.csv"
