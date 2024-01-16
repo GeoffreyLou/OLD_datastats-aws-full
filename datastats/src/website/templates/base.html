@@ -1,0 +1,133 @@
+{% load active_link_tags %}
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang='fr'>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datastats</title>
+  <link rel="stylesheet" href="{% static 'static/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static 'static/css/styles.css' %}">
+  <link rel="icon" type="image/svg+xml" href="{% static 'static/img/graph-up-arrow.svg' %}">
+</head>
+
+<body data-bs-theme="dark">
+  <nav class="navbar navbar-expand-xxl bg-body-tertiary px-3 shadow sticky-top user-select-none">
+    <div class="container-fluid">
+      <div class="p-2">
+        <img src="{% static 'static/img/graph-up-arrow.svg' %}" width="32" height="32" alt="Graph Up Arrow">
+      </div>
+      <div class="navbar-brand p-2 mb-1 fw-bold fs-3" >
+        <a class="link-light link-underline-opacity-0" href="{% url 'index' %}">
+          Datastats
+        </a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarDatastats" aria-controls="navbarDatastats" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarDatastats">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-underline">
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-link link-light {% active_link 'index' 'active' %}" href="{% url 'index' %}">
+              Accueil
+            </a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-link link-light {% active_link 'methodologie' 'active' %}" href="{% url 'methodologie' %}">
+              Méthodologie
+            </a>
+          </li>
+          {% if user.is_authenticated %}
+            <li class="nav-item d-flex justify-content-start">
+              <a class="nav-link link-light {% active_link 'dashboard' 'active' %}" href="{% url 'dashboard' %}">
+                Dashboard par métier
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item d-flex justify-content-start">
+              <a class="nav-link link-light {% active_link 'dashboard' 'active' %} " data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-custom-class="bg-primary" data-bs-content="Veuillez vous connecter pour accéder au dashboard par métier">
+                Dashboard par métier
+              </a>
+            </li>
+          {% endif %}
+          {% if user.is_authenticated %}
+            <li class="nav-item d-flex justify-content-start">
+              <a class="nav-link link-light {% active_link 'data' 'active' %}" href="{% url 'data' %}">
+                Données
+              </a>
+            </li>
+          {% else %}
+            <li class="nav-item d-flex justify-content-start">
+              <a class="nav-link link-light {% active_link 'dashboard' 'active' %} " data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-custom-class="bg-primary" data-bs-content="Veuillez vous connecter pour accéder aux données">
+                Données
+              </a>
+            </li>
+          {% endif %}
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-link link-light {% active_link 'about' 'active' %}" href="{% url 'about' %}">
+              Qui suis-je?
+            </a>
+          </li>
+          <li class="nav-item d-flex justify-content-start">
+            <a class="nav-link link-light {% active_link 'contact' 'active' %}" href="{% url 'contact' %}">
+              Contact
+            </a>
+          </li>
+          {% if user.is_superuser %}
+            <li class="nav-item d-flex justify-content-start">
+              <a class="nav-link link-light {% active_link 'checklists' 'active' %}" href="{% url 'checklists' %}">
+                Administration
+              </a>
+            </li>
+          {% endif %}
+        </ul>
+        <div>
+          {% if user.is_authenticated %}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-underline">
+              <li class="nav-item d-flex justify-content-start">
+              </li>
+              <li class="nav-item d-flex justify-content-start">
+                <a class="nav-link link-light {% active_link 'profil' 'active' %}" href="{% url 'profil' %}">
+                  Profil
+                </a>
+              </li>     
+              <li class="nav-item d-flex justify-content-start">
+                <a class="nav-link link-light" href="{% url 'logout_user' %}">
+                  Déconnexion
+                </a>
+              </li>
+            </ul>
+          {% else %}
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 nav-underline">
+              <li class="nav-item d-flex justify-content-start">
+              </li>
+              <li class="nav-item d-flex justify-content-start">
+                <a class="nav-link link-light {% active_link 'login' 'active' %}" href="{% url 'login' %}">
+                  Login
+                </a>
+              </li>
+            </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  {% block content %}{% endblock %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]');
+      const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl));
+    });
+  </script>
+
+  <br>
+  <br>
+  <script src="{% static 'static/js/main.js' %}"></script>
+  <script src="{% static 'static/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

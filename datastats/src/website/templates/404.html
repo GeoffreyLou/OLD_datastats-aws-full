@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="container position-relative container d-flex justify-content-center mt-5 user-select-none">
+  <img class="img-fluid rounded-5 border border-white" src="{% static 'static/img/puginspace.jpeg' %}" alt="Pug in space">
+  <div class="position-absolute bottom-0 start-50 translate-middle-x fs-4 fw-bold pb-4 text-center">Cette page n'existe pas, voici un carlin dans l'espace.</div>
+</div>
+
+{% endblock %}

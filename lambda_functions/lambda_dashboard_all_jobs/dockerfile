@@ -1,0 +1,16 @@
+FROM public.ecr.aws/lambda/python:3.10
+
+# Set permissions for /tmp
+RUN chmod 1777 /tmp
+
+# Copy requirements.txt
+COPY requirements.txt ${LAMBDA_TASK_ROOT}
+
+# Install the specified packages, including Orca dependencies
+RUN pip install -r requirements.txt 
+
+# Copy function code
+COPY lambda_charts.py ${LAMBDA_TASK_ROOT}
+
+# Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
+CMD [ "lambda_charts.lambda_handler" ]

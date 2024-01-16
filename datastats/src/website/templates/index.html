@@ -1,0 +1,317 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+{% if account_deleted %}
+<div class="alert alert-success alert-dismissible fade show m-4 d-flex justify-content-center" role="alert">
+  Votre compte a bien été supprimé.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<div class="container-fluid user-select-none mt-4" style="max-width: 1800px;">
+  <div class="card mx-auto border-light">
+    <div class="card-header h1 shadow">
+      Bienvenue sur Datastats! 
+    </div>
+    <div class="row" style="margin: 0">
+      <div class="col-xl-6 d-flex align-items-center justify-content-center my-3">
+        <div class="px-4">
+          <p style="text-align: justify;">Datastats récupère quotidiennement les nouvelles offres d'emploi en France provenant de sites de recrutement pour les métiers de la Data. Cela permet d'extraire des informations utiles telles que :</p>
+          <ul>
+            <li><p>Le métier recherché</p></li>
+            <li><p>La région et la ville de l'emploi</p></li>
+            <li><p>L'entreprise qui recrute</p></li>
+            <li><p>Les technologies demandées</p></li>
+            <li><p>Les salaires (depuis le 1er décembre 2023)</p></li>
+          </ul>
+          <p style="text-align: justify;">Les données actuelles se basent sur <b>{{ html_total_jobs|safe }} offres d'emploi</b>, et ce nombre grandit chaque mois ! Les graphiques mis à jour chaque premier du mois.</p>
+          <p style="text-align: justify;">Cette page présente les données d'ensemble des 12 derniers mois, n'hésitez pas à consulter le dashboard par métiers.</p>
+          <p>Bonne visite. ✌️</p>
+        </div>
+      </div>
+      <div class="col-xl-6 p-0 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5 mb-3 text-center">
+             Évolution du nombre d'offres publiées
+          </div>
+          <div class="px-4 d-flex justify-content-center">
+            <div type="button" class="index-global-line-chart" data-bs-toggle="modal" data-bs-target="#index_line_chart_job_count">
+              <img class="img-fluid index-global-line-chart" src="{% static 'static/charts/index_line_chart_job_count.png' %}" alt="Line chart nombre de métiers">
+            </div>
+
+            <div class="modal" id="index_line_chart_job_count" tabindex="-1" aria-labelledby="index_line_chart_job_count-label" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable index-global-line-chart-modal-size" id="items-container">
+                <div class="modal-content index-global-line-chart-scoll-tree rounded-0">
+                  <img class="index-global-line-chart p-2" src="{% static 'static/charts/index_line_chart_job_count.png' %}" alt="Line chart nombre de métiers"> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid user-select-none my-5" style="max-width: 1800px;">
+  <div class="card mx-auto border-light">
+    <div class="card-header h2 shadow">
+      Providers cloud
+    </div>
+    <div class="row" style="margin: 0">
+      <div class="col-xl-3 my-4 d-flex justify-content-center align-items-center">
+        <div class="p-3" style="max-width: 900px;">
+          <p style="text-align: justify;">Le focus est fait ici sur les trois principaux providers autour des métiers Data. Sur un total de <b>{{ html_total_jobs|safe }}</b> offres d'emploi, au moins un cloud est demandé dans <b>{{ cloud_total_jobs|safe }}</b> d'entre elles, soit <b>{{ percentage_cloud_jobs|safe }}%</b>.</p>
+          <br>
+          <p style="text-align: justify;">Cela met en évidence une tendance de la demande lors du recrutement, mais ne permet pas de dire qu'un cloud provider est majoritaire sur la totalité des entreprises.</p>
+        </div>
+      </div>
+      <div class="col-xl-5 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5 mb-3 text-center">
+            Évolution de la demande par provider
+          </div>
+          <div class="px-4 d-flex justify-content-center">
+            <div type="button" class="index-cloud-line-chart" data-bs-toggle="modal" data-bs-target="#index-cloud-line-chart">
+              <img class="img-fluid index-cloud-line-chart" src="{% static 'static/charts/index_linechart_providers_cloud.png' %}" alt="Line chart nombre de métiers">
+            </div>
+
+            <div class="modal" id="index-cloud-line-chart" tabindex="-1" aria-labelledby="index-cloud-line-chart-label" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable index-cloud-line-chart-modal-size" id="items-container">
+                <div class="modal-content index-cloud-line-chart-scoll-tree rounded-0">
+                    <img class="index-cloud-line-chart p-2" src="{% static 'static/charts/index_linechart_providers_cloud.png' %}" alt="Line chart nombre de métiers"> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5 mb-3 text-center">
+            Répartition sur le mois précédent
+          </div>
+          <div class="px-4 d-flex justify-content-center">
+            <div type="button" class="index-donut-chart" data-bs-toggle="modal" data-bs-target="#index-donut-chart">
+              <img class="img-fluid index-donut-chart" src="{% static 'static/charts/index_donut_providers_cloud.png' %}" alt="Line chart nombre de métiers">
+            </div>
+
+            <div class="modal" id="index-donut-chart" tabindex="-1" aria-labelledby="index-donut-chart-label" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable index-donut-chart-modal-size" id="items-container">
+                <div class="modal-content index-donut-chart-scoll-tree rounded-0">
+                    <img class="index-donut-chart p-2" src="{% static 'static/charts/index_donut_providers_cloud.png' %}" alt="Line chart nombre de métiers"> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid user-select-none mt-5" style="max-width: 1800px;">
+  <div class="card mx-auto border-light">
+    <div class="card-header h2 shadow">
+      Quelques précisions
+    </div>
+    <div class="row" style="margin: 0">
+      <div class="col-xl-6 d-flex align-items-center justify-content-center my-3">
+        <div class="px-4">
+          <p style="text-align: justify;">Datastats a débuté la collecte de données le <b>1er juin 2023</b>. Une veille est réalisée sur les technologies pour chaque métier afin d'offrir des données fiables.</p>
+          <p style="text-align: justify;">N'hésitez pas à me contacter pour demander l'ajout d'une technologie, l'effet sera rétroactif sur l'ensemble des données.</p>
+          <p style="text-align: justify;">La partie méthodologie vous indiquera comment sont récupérées et traitées les données.</p>
+          <p style="text-align: justify;">Si vous souhaitez en savoir d'avantage sur le créateur de ce site, <a class="link-light" href="https://www.linkedin.com/in/glouasse/" target="_blank">cliquez ici pour accéder à mon profil LinkedIn</a> ou visitez la section <a class="link-light" href="{% url 'about' %}">Qui suis-je?</a></p>
+        </div>
+      </div>
+      <div class="col-xl-6 p-0 my-3 d-flex justify-content-center align-items-center justify-content-center">
+        <div class="px-4">
+          <p style="text-align: justify;">Sur les 12 derniers mois, environ <b>{{ avg_daily_jobs }} offres d'emploi</b> sont mises en ligne chaque jour tous métiers confondus.</p>
+          <p style="text-align: justify;">La tranche de salaire la plus élevée du mois précédent est pour le métier <b>{{ max_salary_job_name }}</b> au sein de l'entreprise <b>{{ max_salary_company_name}}</b> pour un salaire compris entre <b>{{ max_salary_min_salary }} €</b> et <b>{{ max_salary_max_salary }} €</b>.</p>
+          <p style="text-align: justify;">Et la plus faible pour le métier <b>{{ min_salary_job_name }}</b> au sein de l'entreprise <b>{{ min_salary_company_name}}</b> pour un salaire compris entre <b>{{ min_salary_min_salary }} €</b> et <b>{{ min_salary_max_salary }} €</b>.</p>
+          <p style="text-align: justify;">Les emplois de type <b>{{ contract_type_type }}</b> occupent le haut de la demande avec <b>{{ contract_type_percentage }} %</b> des offres d'emploi.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid user-select-none mt-5" style="max-width: 1800px;">
+  <div class="card mx-auto border-light">
+    <div class="card-header h2 shadow">
+      Salaire moyen et médian
+    </div>
+    <div class="row mt-3 mx-3">
+      <p class="alert alert-warning" style="text-align: justify;">Les informations de salaire sont récupérées depuis le 1er décembre 2023. Elles sont rarement renseignées par les entreprises et ne constituent pas un critère fiable, cela permet de donner une idée sur la fourchette des salaires. Les données vont gagner en fiabilité au fil des mois, je tente de mettre en place en parallèle un système qui prend en compte l'ancienneté demandée.</p>
+    </div>
+    <div class="row" style="margin: 0">
+      <div class="col-xl-6 p-0 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5">
+              Salaire moyen
+            </div>
+            <div class="px-4 d-flex justify-content-center">
+              <div type="button" class="index-salary-tables" data-bs-toggle="modal" data-bs-target="#index-salary-tables">
+                <img class="img-fluid index-salary-tables" src="{% static 'static/charts/index_tableau_salaire_moyen.png' %}" alt="Line chart nombre de métiers">
+              </div>
+
+              <div class="modal" id="index-salary-tables" tabindex="-1" aria-labelledby="index-salary-tables-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable index-salary-tables-modal-size" id="items-container">
+                  <div class="modal-content index-salary-tables-scoll-tree rounded-0 d-flex align-items-center justify-content-center">
+                      <img class="index-salary-tables p-2" src="{% static 'static/charts/index_tableau_salaire_moyen.png' %}" alt="Line chart nombre de métiers"> 
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-xl-6 p-0 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5">
+            Salaire médian
+          </div>
+          <div class="px-4 d-flex justify-content-center">              
+            <div type="button" class="index-salary-tables" data-bs-toggle="modal" data-bs-target="#index-salary-tables2">
+              <img class="img-fluid index-salary-tables" src="{% static 'static/charts/index_tableau_salaire_median.png' %}" alt="Line chart nombre de métiers">
+            </div>
+
+            <div class="modal" id="index-salary-tables2" tabindex="-1" aria-labelledby="index-salary-tables2-label" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable index-salary-tables-modal-size" id="items-container">
+                <div class="modal-content index-salary-tables-scoll-tree rounded-0 d-flex align-items-center justify-content-center">
+                    <img class="index-salary-tables p-2" src="{% static 'static/charts/index_tableau_salaire_median.png' %}" alt="Line chart nombre de métiers"> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid user-select-none mt-5" style="max-width: 1800px;">
+  <div class="card mx-auto border-light">
+    <div class="card-header h2 shadow">
+      Répartition par emploi et par région
+    </div>
+    <div class="row" style="margin: 0">
+      <div class="col-xl-6 p-0 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5">
+              Par emploi
+            </div>
+            <div class="px-4 d-flex justify-content-center">
+              <div type="button" class="index-barcharts" data-bs-toggle="modal" data-bs-target="#index-barcharts">
+                <img class="img-fluid index-barcharts" src="{% static 'static/charts/index_barchart_job_count.png' %}" alt="Barchart nombre d'emplois par métier">
+              </div>
+
+              <div class="modal" id="index-barcharts" tabindex="-1" aria-labelledby="index-barcharts-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable index-barcharts-modal-size" id="items-container">
+                  <div class="modal-content index-barcharts-scoll-tree rounded-0 d-flex align-items-center justify-content-center">
+                      <img class="index-barcharts p-2" src="{% static 'static/charts/index_barchart_job_count.png' %}" alt="Barchart nombre d'emplois par métier"> 
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-xl-6 p-0 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5">
+              Par région
+            </div>
+            <div class="px-4 d-flex justify-content-center">
+              <div type="button" class="index-barcharts" data-bs-toggle="modal" data-bs-target="#index-barcharts">
+                <img class="img-fluid index-barcharts" src="{% static 'static/charts/index_barchart_region_count.png' %}" alt="Barchart nombre d'emplois par région">
+              </div>
+
+              <div class="modal" id="index-barcharts" tabindex="-1" aria-labelledby="index-barcharts-label" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable index-barcharts-modal-size" id="items-container">
+                  <div class="modal-content index-barcharts-scoll-tree rounded-0 d-flex align-items-center justify-content-center">
+                      <img class="index-barcharts p-2" src="{% static 'static/charts/index_barchart_region_count.png' %}" alt="Barchart nombre d'emplois par région"> 
+                  </div>
+                </div>
+              </div>              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid user-select-none mt-5 " style="max-width: 1800px;">
+  <div class="card mx-auto border-light">
+    <div class="card-header h2 shadow">
+      Les top 10
+    </div>
+    <div class="row" style="margin: 0">
+      <div class="col-xl-4 p-0 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5 text-center">
+            Technologies demandées
+          </div>
+          <div class="px-4 d-flex justify-content-center">
+            <div type="button" class="index-top-tables" data-bs-toggle="modal" data-bs-target="#index-top-tables1">
+              <img class="img-fluid index-top-tables" src="{% static 'static/charts/index_tableau_top_technos.png' %}" alt="Tableau top technos demandées">
+            </div>
+
+            <div class="modal" id="index-top-tables1" tabindex="-1" aria-labelledby="index-top-tables-label1" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable index-top-tables-modal-size" id="items-container">
+                <div class="modal-content index-top-tables-scoll-tree rounded-0 d-flex align-items-center justify-content-center">
+                    <img class="index-top-tables p-2" src="{% static 'static/charts/index_tableau_top_technos.png' %}" alt="Tableau top technos demandées"> 
+                </div>
+              </div>
+            </div>              
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-4 p-0 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5 text-center">
+            Villes qui recrutent
+            </div>
+            <div class="px-4 d-flex justify-content-center">
+              <div type="button" class="index-top-tables" data-bs-toggle="modal" data-bs-target="#index-top-tables2">
+                <img class="img-fluid index-top-tables" src="{% static 'static/charts/index_tableau_top_villes.png' %}" alt="Tableau top villes qui recrutent">
+              </div>
+  
+              <div class="modal" id="index-top-tables2" tabindex="-1" aria-labelledby="index-top-tables-label2" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-scrollable index-top-tables-modal-size" id="items-container">
+                  <div class="modal-content index-top-tables-scoll-tree rounded-0 d-flex align-items-center justify-content-center">
+                      <img class="index-top-tables p-2" src="{% static 'static/charts/index_tableau_top_villes.png' %}" alt="Tableau top villes qui recrutent"> 
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <div class="col-xl-4 p-0 my-3 d-flex align-items-center justify-content-center">
+        <div class="row">
+          <div class="d-flex justify-content-center h5 text-center">
+            Entreprises qui recrutent
+          </div>
+          <div class="px-4 d-flex justify-content-center">
+            <div type="button" class="index-top-tables" data-bs-toggle="modal" data-bs-target="#index-top-tables3">
+              <img class="img-fluid index-top-tables" src="{% static 'static/charts/index_tableau_top_entreprises.png' %}" alt="Tableau top entreprises qui recrutent">
+            </div>
+
+            <div class="modal" id="index-top-tables3" tabindex="-1" aria-labelledby="index-top-tables-label3" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-scrollable index-top-tables-modal-size" id="items-container">
+                <div class="modal-content index-top-tables-scoll-tree rounded-0 d-flex align-items-center justify-content-center">
+                    <img class="index-top-tables p-2" src="{% static 'static/charts/index_tableau_top_entreprises.png' %}" alt="Tableau top entreprises qui recrutent"> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

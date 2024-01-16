@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container-fluid mx-auto mt-5 d-flex justify-content-center user-select-none" style="max-width: 900px;">
+  <div class="card w-100 flex-wrap border border-white border-2 justify-content-center rounded mx-1">
+    <div class="card-header d-flex justify-content-center shadow h2">
+      Inscription
+    </div>
+
+    <div class="card-body">
+
+
+      {% if form.errors %}
+      <div class= "mb-4 d-flex align-items-center justify-content-center">
+        <div class="alert alert-danger">
+          {% for field, errors in form.errors.items %}
+            {% if field == 'username' %}
+              {{ form.username.label_tag }} {{ errors }}
+            {% elif field == 'email' %}
+              {{ form.email.label_tag }} {{ errors }}
+            {% elif field == 'password1' %}
+              {{ form.password1.label_tag }} {{ errors }}
+            {% elif field == 'password2' %}
+              {{ form.password2.label_tag }} {{ errors }}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+      <div class="d-flex justify-content-center">
+        <form method="post" class="needs-validation" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            {{ form.username.label_tag }} 
+            <input type="{{ form.username.field.widget.input_type }}" name="{{ form.username.name }}" class="form-control" {% if form.username.required %}required{% endif %}>
+            <div class="invalid-feedback">
+              {{ form.username.errors }}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            Email : 
+            <input type="{{ form.email.field.widget.input_type }}" name="{{ form.email.name }}" class="form-control" {% if form.email.required %}required{% endif %}>
+            <div class="invalid-feedback">
+              {{ form.email.errors }}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            {{ form.password1.label_tag }}
+            <input type="{{ form.password1.field.widget.input_type }}" name="{{ form.password1.name }}" class="form-control" {% if form.password1.required %}required{% endif %}>
+            <div class="invalid-feedback">
+              {{ form.password1.errors }}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            {{ form.password2.label_tag }}
+            <input type="{{ form.password2.field.widget.input_type }}" name="{{ form.password2.name }}" class="form-control" {% if form.password2.required %}required{% endif %}>
+            <div class="invalid-feedback">
+              {{ form.password2.errors }}
+            </div>
+          </div>
+          <div class="my-3">
+            <ul>
+              <li>Votre mot de passe ne peut pas ressembler à vos informations personnelles</li>
+              <li>Votre mot de passe doit contenir au moins 8 caractères</li>
+              <li>Votre mot de passe ne peut pas être un mot de passe couramment utilisé</li>
+              <li>Votre mot de passe ne peut pas être entièrement numérique</li>
+            </ul>
+          </div>
+          <button type="submit" class="btn btn-secondary bg-dark-subtle mb-4 py-2">S'inscrire</button>
+        </form>
+      </div>
+      <div>
+        <div class="alert alert-warning d-flex justify-content-center" style="text-align: justify;">
+          <div><strong>Info RGPD</strong> : vos données personnelles sont conservées dans le seul but de gérer votre compte utilisateur, éventuellement vous informer de nouvelles fonctionnalités par e-mail (sans constituer une newsletter), et en aucun cas ne seront transmises ou vendues à des tiers.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

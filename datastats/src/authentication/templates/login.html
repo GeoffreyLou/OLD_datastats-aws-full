@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+
+<div class="container-fluid mx-auto mt-5 d-flex justify-content-center user-select-none" style="max-width: 900px;">
+  <div class="card w-100 flex-wrap border border-white border-2 justify-content-center rounded mx-1">
+    <div class="card-header d-flex justify-content-center shadow h2">
+      Login
+    </div>
+    <div class="card-body">
+      <div class="row">
+        {% if messages %}
+          <div class="messages d-flex justify-content-center">
+            {% for message in messages %}
+              <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible m-4" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="row my-2">
+        <div class="mb-3 d-flex justify-content-center">
+          <form method="post">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary bg-dark-subtle" id="liveToastBtn">
+              Se connecter
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <div class="row my-2">
+        <div class="d-flex justify-content-center">
+          <div class="">
+            <p>Si vous n'avez pas de compte, <strong><a class="link-light" href="{% url 'signup' %}">c'est ici que ça se passe</a></strong>.</p>
+            <p>En cas d'oubli de votre mot de passe, <strong><a class="link-light" href="{% url 'password_reset' %}">cliquez ici.</a></strong></p>
+            <p>Bonne visite !</p> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

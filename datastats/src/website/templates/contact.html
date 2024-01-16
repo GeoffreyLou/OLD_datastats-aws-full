@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+{% if email_sent %}
+<div class="alert alert-success alert-dismissible fade show m-4 d-flex justify-content-center user-select-none" role="alert">
+  Votre message a bien été envoyé.
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+
+<div class="container-fluid mx-auto mt-5 d-flex justify-content-center user-select-none" style="max-width: 900px;">
+  <div class="card w-100 flex-wrap border border-white border-2 justify-content-center rounded mx-1">
+    <div class="card-header d-flex justify-content-center shadow h2">
+      Contactez-moi !
+    </div>
+    <div class="card-body" style="text-align: justify;">
+      <div class="px-3 my-3">
+        <p>Vous avez des questions sur le projet? Vous souhaitez voir de nouvelles fonctionnalités? Ajouter des technologies ou simplement dire bonjour? Vous êtes au bon endroit !</p>
+      </div>
+      <div class="mt-2">
+        <form method="post" action="{% url 'contact' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-secondary bg-dark-subtle mb-4 py-2">
+            Envoyer
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

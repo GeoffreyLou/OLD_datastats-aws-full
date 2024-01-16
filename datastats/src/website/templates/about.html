@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="container-fluid user-select-none my-5 justify-content-center" style="max-width: 1800px;">
+  <div class="row d-flex justify-content-center align-items-center">
+    <div class="col-xl-2 d-flex justify-content-center align-items-center">
+      <img class="img-fluid pug" src="{% static 'static/img/pug_latte.png' %}" alt="Pug driking latte">
+    </div>
+    <div class="col-xl-8 d-flex justify-content-center align-items-center">
+      <div class="p-4 border border-white rounded border-3 border-custom" style="text-align: justify;">
+        Je suis à la recherche de mon premier CDI Data Engineer dès le 01/03/2024. Il paraît que je suis sympa et passionné mais surtout de bonne humeur en toute circonstance.  Si vous recrutez ou avez une connaissance qui recherche une personne motivée, faites-moi un coucou.
+      </div>
+    </div>
+    <div class="col-xl-2 d-flex justify-content-center align-items-center">
+      <img class="img-fluid pug" src="{% static 'static/img/pug_videogames.png' %}" alt="Pug playing videogames">
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid user-select-none my-4 justify-content-center" style="max-width: 1800px;">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-xl-4 p-4 border border-white" style="text-align: justify;">
+      <p>Apprendre. C'est peut-être le mot qui me résume. Après neuf années dans le ferroviaire accompagnées d'examens internes, j'ai découvert une nouvelle passion pour la donnée. Féru d'informatique, je me suis dit que Data Analyst ça pourrait être sympa.</p>
+      <p>Je place donc mes économies dans un bootcamp pour apprendre ce métier. Pas de chance, l'univers de la Data est encore plus passionant qu'imaginé et me voilà avec une montagne de technologies et concepts à apprendre. Cinq mois c'est court et j'ai envie d'aller plus loin. Pourquoi pas une alternance Data Engineer?</p>
+      <p>Et c'est reparti pour un an avec une alternance dans une superbe entreprise, ce qui me laisse le temps de perfectionner mes acquis, avoir une première expérience (orientée Data Analyst / Analytics Engineer) et créer un projet au delà du "petit projet d'école". Quoi de mieux pour apprendre, mettre en avant ses compétences et faire quelque chose d'utile que ce site, permettant sur la durée d'avoir des données solides sur les métiers de la Data pour tout le monde.</p>
+      <p>Sinon j'aime aussi les jeux vidéos, le latte soja vanille, le roller mais surtout les Carlins.</p>    
+      <p>Vous pouvez retrouver mon profil linkedin en <a class="link-light" href="https://www.linkedin.com/in/glouasse/" target="_blank">cliquant ici</a>.</p>
+    </div>
+    <div class="col-xl-4 p-4 d-flex justify-content-center">
+      <img class="img-fluid" src="{% static 'static/img/meee.png' %}" alt="Photo de moi">
+    </div>
+  </div>
+</div>
+<div class="container-fluid user-select-none my-4" style="max-width: 1800px;">
+  <div class="row align-items-center justify-content-around">
+    <div class="col-xl-8 p-4 border border-white" style="text-align: justify;">
+      <p class="d-flex justify-content-center h5">Voici les technos que je connais ainsi que celles qui sont en cours d'apprentissage : </p>
+      </br>
+      <p><b><u>Python</u></b> : Numpy, Pandas, Plotly, Matplotlib, Seaborn, Regex, Psycopg2</p>
+      <p><b><u>Scala</u></b> : (en cours d'apprentissage)</p>
+      <p><b><u>Spark</u></b> : PySpark, Scala (en cours d'apprentissage)</p>
+      <p><b><u>SQL</u></b> : PostgreSQL, Vertica, BigQuery</p>
+      <p><b><u>AWS</u></b> : IAM, EC2, S3, RDS, Lambda, ELB, ASG, VPC</p>
+      <p><b><u>Versioning</u></b> : Git, GitLab, GitHub</p>
+      <p><b><u>ELT</u></b> : dbt</p>
+      <p><b><u>Extraction</u></b> : Airbyte (open-source)</p>
+      <p><b><u>Orchestrateur</u></b> : Airflow (en cours d'apprentissage)</p>
+      <p><b><u>Conteneurisation</u></b> : Docker</p>
+      <p><b><u>Webscraping</u></b> : Selenium et Beautifulsoup</p>
+      <p><b><u>Applicatif</u></b> : Django, Bootstrap</p>
+      <p><b><u>Dataviz</u></b> : Tableau</p>
+      <p><b><u>Certifications</u></b> : dbt Fundamentals, AWS Cloud Practitionner (préparation en cours)</p>
+      <div class="d-flex mt-2 justify-content-center align-items-center">
+        <img class="img-fluid pug" src="{% static 'static/img/pug_candy.png' %}" alt="Pug playing videogames">
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

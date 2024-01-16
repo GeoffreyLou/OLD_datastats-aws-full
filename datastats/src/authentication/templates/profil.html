@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="container-fluid mx-auto mt-5 d-flex justify-content-center user-select-none" style="max-width: 900px;">
+  <div class="card w-100 flex-wrap border border-white border-2 justify-content-center rounded mx-1">
+    <div class="card-header d-flex justify-content-center shadow h2">
+      Mon compte
+    </div>
+
+    {% if messages %}
+      <div class="messages my-3">
+        {% for message in messages %}
+          <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible m-4" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="px-4 my-3">
+      <p>Voici les informations vous concernant : </p>
+      <br>
+      <p><strong>Votre nom d'utilisateur : </strong>{{ current_username }}</p>
+      <p><strong>Votre email : </strong>{{ current_email }}</p>
+      <br>
+      Vous pouvez modifier (ou supprimer) votre profil ci-dessous :
+    </div>
+    
+    <div class="card-body d-flex flex-wrap justify-content-center" style="max-height:1500px;">
+      <div class="col-lg-2 col-md-6 mb-4 mx-2 w-100">
+        <button type="button" class="btn btn-secondary bg-dark-subtle h-100 w-100" data-bs-toggle="modal" data-bs-target="#deleteAccount">
+          Supprimer mon compte
+        </button>
+        <div class="modal fade" id="deleteAccount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="deleteAccountLabel">Supprimer le compte</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Pour supprimer votre compte, veuillez entrer votre mot de passe.</p>
+
+                <form method="post">
+                  {% csrf_token %}
+                  {{ password_confirmation.as_p }}
+                  <div class="d-flex align-items-center">
+                    <div>Supprimer mon compte :</div> <div class="mt-1 px-2">{{ delete_account.delete_account }}</div>
+                  </div>    
+                  <div class="d-flex justify-content-end mt-3">
+                    <div class="px-2">
+                      <button type="button" class="btn btn-secondary bg-dark-subtle" data-bs-dismiss="modal">Retour</button>
+                    </div>
+                    <div class="px-2">
+                      <button type="submit" name="delete_account_submit" class="btn btn-danger">Supprimer mon compte</button>
+                    </div>
+                  </div>  
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-6 mb-4 mx-2 w-100">
+        <button type="button" class="btn btn-secondary bg-dark-subtle h-100 w-100" data-bs-toggle="modal" data-bs-target="#changeUsername">Changer le nom d'utilisateur</button>
+        <div class="modal fade" id="changeUsername" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changeUsernameLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="changeUsernameLabel">Changer mon nom d'utilisateur</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Veuillez entrer votre nouveau nom d'utilisateur et votre mot de passe pour valider le changement.</p>
+                <form method="post">        
+                  {% csrf_token %}
+                  {{ password_confirmation.as_p }}
+                  {{ change_username.username.label_tag }} 
+                  <input type="{{ change_username.username.field.widget.input_type }}" name="{{ change_username.username.name }}" class="form-control" {% if change_username.username.required %}required{% endif %}>
+                  <div class="d-flex justify-content-end mt-3">
+                    <div class="px-2">
+                      <button type="button" class="btn btn-secondary bg-dark-subtle" data-bs-dismiss="modal">Retour</button>
+                    </div>
+                    <div class="px-2">
+                      <button type="submit" name="change_username_submit" class="btn btn-primary">Confirmer</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-6 mb-4 mx-2 w-100">
+        <button type="button" class="btn btn-secondary bg-dark-subtle h-100 w-100" data-bs-toggle="modal" data-bs-target="#changeEmail">Changer l'email</button>
+        <div class="modal fade" id="changeEmail" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changeEmailLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="changeEmailLabel">
+                  Changer mon email
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Veuillez entrer votre nouvel email et votre mot de passe pour valider le changement.</p>
+                <form method="post">        
+                  {% csrf_token %}
+                  {{ password_confirmation.as_p }}
+                  {{ change_email.email.label_tag }} 
+                  <input type="{{ change_email.email.field.widget.input_type }}" name="{{ change_email.email.name }}" class="form-control" {% if change_email.email.required %}required{% endif %}>
+                  <div class="modal-footer">
+                    <div class="d-flex justify-content-end mt-3">
+                      <div class="px-2">
+                        <button type="button" class="btn btn-secondary bg-dark-subtle" data-bs-dismiss="modal">Retour</button>
+                      </div>
+                      <div class="px-2">                
+                        <button type="submit" name="change_email_submit" class="btn btn-primary">Confirmer</button>
+                      </div>
+                    </div> 
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-6 mb-4 mx-2 w-100">
+        <button type="button" class="btn btn-secondary bg-dark-subtle h-100 w-100" data-bs-toggle="modal" data-bs-target="#changePassword">Changer le mot de passe</button>
+        <div class="modal fade" id="changePassword" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="changePasswordLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="changePasswordLabel">Changer mon mot de passe</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Veuillez indiquer votre mot de passe actuel, votre nouveau mot de passe et enfin le confirmer.</p>
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                      Votre mot de passe actuel :
+                      <input type="{{ change_password.old_password.field.widget.input_type }}" name="{{ change_password.old_password.name }}" class="form-control" {% if change_password.old_password.required %}required{% endif %}>
+                  </div>
+                  <div class="mb-3">
+                      Votre nouveau mot de passe : 
+                      <input type="{{ change_password.new_password1.field.widget.input_type }}" name="{{ change_password.new_password1.name }}" class="form-control" {% if change_password.new_password1.required %}required{% endif %}>
+                  </div>
+                  <div class="mb-3">
+                      Confirmation du nouveau mot de passe : 
+                      <input type="{{ change_password.new_password2.field.widget.input_type }}" name="{{ change_password.new_password2.name }}" class="form-control" {% if change_password.new_password2.required %}required{% endif %}>
+                  </div>
+                  <div class="my-3">
+                    <ul>
+                      <li>Votre mot de passe ne peut pas ressembler à vos informations personnelles</li>
+                      <li>Votre mot de passe doit contenir au moins 8 caractères</li>
+                      <li>Votre mot de passe ne peut pas être un mot de passe couramment utilisé</li>
+                      <li>Votre mot de passe ne peut pas être entièrement numérique</li>
+                    </ul>
+                  </div>
+                  <div class="d-flex justify-content-end mt-3">
+                    <div class="px-2">
+                      <button type="button" class="btn btn-secondary bg-dark-subtle" data-bs-dismiss="modal">Retour</button>
+                    </div>
+                    <div class="px-2">                
+                      <button type="submit" name="change_password_submit" class="btn btn-primary">Confirmer</button>
+                    </div>
+                  </div> 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      Vous êtes super comme vous êtes, ne changez pas !
+    </div>
+    <div class="row d-flex my-2 justify-content-center align-items-center">
+      <img class="img-fluid pug" src="{% static 'static/img/pug_happy.png' %}" alt="Happy pug">
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

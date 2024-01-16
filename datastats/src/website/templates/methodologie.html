@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+  
+<div class="container-fluid user-select-none my-4 d-flex justify-content-center" style="max-width: 1800px;">
+  <div class="row d-flex justify-content-center">
+    <p></p>
+    <h1 class="display-5 text-center"><strong>☁️ Un projet Data Engineering dans le cloud ☁️</strong></h1>
+  </div>
+</div>
+
+<div class="container-fluid user-select-none my-4" style="max-width: 1800px;">
+  <div class="row align-items-center justify-content-around">
+    <div class="col-xl-1 d-flex justify-content-center align-items-center" style="height: 150px; width:150px;">
+      <img class="img-fluid rounded" style="max-height:50px;" src="{% static 'static/img/logopython.png' %}" alt="Description de l'image">
+    </div>
+    <div class="col-xl-1 d-flex justify-content-center align-items-center " style="height: 150px; width:150px;">
+      <img class="img-fluid rounded" style="max-height:100px;" src="{% static 'static/img/pandas.svg' %}" alt="Description de l'image">
+    </div>
+    <div class="col-xl-1 d-flex justify-content-center align-items-center" style="height: 150px; width:150px;">
+      <img class="img-fluid rounded" style="max-height:100px;" src="{% static 'static/img/django.png' %}" alt="Description de l'image">
+    </div>       
+    <div class="col-xl-1 d-flex justify-content-center align-items-center" style="height: 150px; width:150px;">
+      <img class="img-fluid rounded" style="max-height:50px;" src="{% static 'static/img/aws.png' %}" alt="Description de l'image">
+    </div> 
+    <div class="col-xl-1 d-flex justify-content-center align-items-center" style="height: 150px; width:150px;">
+      <img class="img-fluid rounded" style="max-height:50px;" src="{% static 'static/img/plotly.png' %}" alt="Description de l'image">
+    </div>
+    <div class="col-xl-1 d-flex justify-content-center align-items-center" style="height: 150px; width:150px;">
+      <img class="img-fluid rounded" style="max-height:70px;" src="{% static 'static/img/postgre.png' %}" alt="Description de l'image">
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid user-select-none my-4" style="max-width: 1800px;">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-xl-8 p-4 border border-white" style="text-align: justify;">
+      <p>Alors que les métiers autour de la Data sont de plus en plus nombreux et demandés, il est difficile de trouver des statistiques pour chacun d'entre eux. Que ce soit le nombre d'offres d'emplois, les technos demandées, leur évolution, les tranches de salaire, etc.</p>
+      <p><b>Datastats</b> a été créé afin d'avoir une vue d'ensemble sur les métiers de la Data, suivre la demande par région ou ville ainsi que par techno.<p>
+      <p>Ce projet est entièrement automatisé et monitoré via une architecture AWS permettant, à moindre coût, de :</p>
+        <ul>
+          <li>Récupérer cinq fois par jour les offres d'emploi de sites de recrutement;</li>
+          <li>Constituer une base de données durable pour ce site web ou des besoins futurs;</li>
+          <li>Assurer une veille sur les technologies en ayant la possibilité d'en ajouter avec effet rétroactif sur la base de données.</li>
+        </ul>
+      <p> L'architecture est en place depuis le 01/06/2023, vous trouverez la méthodologie en détails ci-après.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container user-select-none my-5 d-flex align-items-center justify-content-center">
+  <div type="button" class="architecture-img" data-bs-toggle="modal" data-bs-target="#architecture" >
+    <img class="rounded architecture-img" src="{% static 'static/img/architecturev3.png' %}" alt="Architecture de la webapp">
+  </div>
+
+  <div class="modal" id="architecture" tabindex="-1" aria-labelledby="architecture-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable architecture-img-modal-size" id="items-container">
+      <div class="modal-content rounded-0 d-flex align-items-center justify-content-center architecture-img-scoll-tree">
+          <img class="p-2 architecture-img" src="{% static 'static/img/architecturev3.png' %}" alt="Architecture de la webapp"> 
+      </div>
+    </div>
+  </div> 
+</div>
+ 
+<div class="container-fluid user-select-none my-4" style="max-width: 1800px;">
+  <div class="row align-items-center justify-content-around">
+    <div class="col-xl-8 p-4 border border-white" style="text-align: justify;">
+      <p>Le webscrapping est lancé cinq fois par jour afin de récupérer un maximum d'offres d'emplois, chaque script donne naissance à un fichier CSV stocké dans un datalake sous forme de <b>Bucket S3</b>.</p>
+      <p>Lorsqu'un fichier est déposé dans le datalake, une <b>Fonction Lambda</b> se déclenche et lance un script <b>Python</b> qui va réaliser le nettoyage ainsi que l'alimentation de la base de données.</p>
+      <p>La Fonction Lambda utilise la bibliothèque <b>Pandas</b> qui va permettre de traiter rapidement le fichier. Des colonnes ville, région et technos sont créées à partir des offres d'emplois. Chaque technologie peut-être présente une seule fois par offre d'emploi, mais le cas d'appellations différentes pour une même techno est pris en compte.</p>
+      <p>Afin de ne pas fausser les résultats, une règle a été mise en place avec <b>PostgreSQL</b>: une offre d'emploi ne pourra pas avoir de doublon <b>par mois</b> selon son nom, son entreprise et sa ville. Cela permet d'assurer une cohérence des données face aux entreprises qui postent la même offre plusieurs fois par semaine ou par mois.</p> 
+      <p>Les données étant nettoyées, la Fonction Lambda va incrémenter la base de données dans deux tables pour faire des agrégations selon les besoins visuels. La fonction prend en compte le fait qu'il y ait plusieurs sessions de webscraping au cours de la journée pour ne pas créer de doublons dans ces tables.</p> 
+      <p>La partie web a été un défi à relever, n'ayant aucune expérience dans le domaine. Le choix a été fait d'utiliser <b>Plotly</b> pour ses multiples possibilités de personnalisation, puis un front-end réalisé avec <b>Bootstrap</b> le tout orchestré par <b>Django</b>.</p>
+      <p>Les graphiques nécessitent des requêtes SQL parfois trop complexes pour l'ORM offert par Django. Ils ont d'abord été réalisés avec psycopg2 directement dans le back-end et exportés en front-end en éléments Plotly. Cela apporte trois problématiques : un transfert important de données à chaque chargement de page contenant des graphiques, un temps d'affichage long et une responisivité limitée.</p>
+      <p>La solution a été pensée dans une logique Cloud et ETL. Plutôt que faire des graphiques à chaque requête, pourquoi ne pas transférer le back-end dans des fonctions Lambda, qui vont créer ces graphiques sous forme d'image? Allié avec la CDN <b>AWS CloudFront</b>, je peux bénéficier d'une mise en cache pour toutes le contenu statique du site. C'est une solution à toutes les problématiques rencontrées.</p>
+      <p>La couche incluant Plotly et les modules nécessaires étant trop lourde pour une fonction lambda classique, et le temps d'exécution peut dépasser la durée maximale d'une fonction. Une segmentation a été réalisée en plusieurs fonctions utilisant <b>Docker</b> via <b>AWS Elastic Container Registery</b> coordonnées par <strong>AWS Step Functions</strong>.</p>
+      <p>Le processus est complètement autonome avec différents outils de monitoring et d'alerte : chaque script (Webscraping, Lambda) met à jour une table de reporting et un email est envoyé chaque jour avec les résultats de la veille, des fichiers de log sont également mis en place, ce qui permet de conserver les url ayant abouti à une erreur pour optimiser le webscraping.</p> 
+      <p>La dernière étape est une veille technologique via une interface d'administration qui permet d'ajouter les technologies à surveiller à la liste actuelle avec pour avantage d'être rétroactif : chaque technologie ajoutée ira scanner la base de données pour récupérer les informations antiérieures et ainsi, avoir des données toujours à jour !</p>
+      <p>Les différentes listes (métiers à scraper, technologies, etc.) sont conservées directement dans des bases de données, ceci afin de ne pas avoir à modifier les scripts : il suffit d'utiliser l'interface d'administration mise en place pour mettre à jour les listes.</p> 
+      <p>L'image ci-après vous montre plus en détail les relations entre les tables et services AWS.</p>
+    </div>
+  </div>
+</div>
+
+<div class="container user-select-none my-5 d-flex align-items-center justify-content-center">
+  <div type="button" class="architecture-img" data-bs-toggle="modal" data-bs-target="#postgres" >
+    <img class="rounded architecture-img" src="{% static 'static/img/postgres.png' %}" alt="Architecture de la webapp">
+  </div>
+
+  <div class="modal" id="postgres" tabindex="-1" aria-labelledby="postgres-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable architecture-img-modal-size" id="items-container">
+      <div class="modal-content rounded-0 d-flex align-items-center justify-content-center architecture-img-scoll-tree">
+          <img class="p-2 architecture-img" src="{% static 'static/img/postgres.png' %}" alt="Architecture de la webapp"> 
+      </div>
+    </div>
+  </div> 
+</div>
+
+<div class="container-fluid user-select-none my-4" style="max-width: 1800px;">
+  <div class="row align-items-center justify-content-around">
+    <div class="col-xl-8 p-4 border border-white" style="text-align: justify;">
+      <p>Pensé pour un fonctionnement optimal et comme une réelle application, l'automatisation a été poussée jusqu'au bout. Les actions manuelles sont limitées et réalisable en grande partie via l'interface d'administration.</p>
+      <p>Une entreprise ne renseigne pas de ville ou de région dans son offre d'emploi? Une table est alors incrémentée et une alerte est placée dans la table de reporting. Un email est envoyé chaque matin avec les données de la veille, ce qui permet d'aller ajouter manuellement la ville ou la région via le site web. L'administration récupère la valeur erronnée, propose d'y mettre un bon nom de ville et d'y associer une région. En bonus, cela met à jour un fichier CSV pour que la correction soit automatique si la valeur revient ultérieurement.</p>
+      <p>Une technologie a été oubliée? Aucun problème, elle est ajoutée via l'administration et un script se lance en arrière-plan afin de récupérer les informations sur l'ensemble des offres d'emploi. Une technologie a été mise par erreur ou mal nommée? On peut aisément la supprimer et l'ajouter à nouveau.</p>
+      <p>Le switch maintenance a été mis en place pour protéger l'intégrité de la base de données lors d'une opération de maintenance : l'ajout ou la suppression de technologies peut prendre du temps, tout ajout de données pendant cette opération par un autre script pourrait provoquer la perte des données. Bien que des tables temporaires soient crées pour protéger la base de données en production, une protection supplémentaire a été mise en place via le switch maintenance.</p>
+      <p>Chaque script en mesure de modifier la base de données de production change l'état du switch en "maintenance" avant de lancer une opération. En prallèle, chaque script vérifie avant tout la valeur du switch : en cas de maintenance, il attend alors jusqu'à 20 minutes la fin de la maintenance précédente. Pour ne pas perdre les données, si les 20 minutes sont écoulées et que la base n'est toujours pas disponibles, une porte de sortie est mise en place selon les cas.</p>
+      <p>Si vous souhaitez en savoir plus, n'hésitez pas à me contacter via la page <a class="link-light" href="{% url 'contact' %}">Contact</a>.</p>
+      <p>Dans tous les cas, n'oubliez pas de profiter de votre journée. ☀️</p>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

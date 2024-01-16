@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load static %}
+
+<div class="container-fluid user-select-none my-1 pt-4 justify-content-center" style="max-width: 1800px;">
+  <div class="row d-flex align-items-center justify-content-center ">
+    <div class="col-xl-10 p-4 border border-white align-items-center">
+      Bienvenue sur l'API qui vous permettra via cette page de récupérer les données au format JSON selon vos critères de choix.<br>
+      Vous pouvez également accéder aux données via une requête GET en indiquant vos critères de choix directement dans l'URL de l'API.<br>
+      Les données disponibles vont du {{ real_date_min }} au {{ real_date_max }}.
+    </div>
+  </div>       
+</div>
+
+<div class="container-fluid user-select-none my-4 justify-content-center" style="max-width: 1800px;">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-xl-10 p-4">
+      <form method="post">
+        {% csrf_token %}
+        <div class="row pb-2">
+          <div class="col-2 d-flex align-items-center">
+              Début
+          </div>
+          <div class="col-10">
+            {{ apiform.date_start }}
+          </div>
+        </div>
+        <div class="row pb-2">
+          <div class="col-2 d-flex align-items-center">
+              Fin
+          </div>
+          <div class="col-10">
+              {{ apiform.date_end }}
+          </div>
+        </div>
+        <div class="row pb-2">
+          <div class="col-2 d-flex align-items-center">
+            Métier
+          </div>
+          <div class="col-10">
+              {{ apiform.job }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2 d-flex align-items-center">
+              Région
+          </div>
+          <div class="col-10">
+              {{ apiform.region }}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-secondary bg-dark-subtle my-2">
+          Filtrer
+        </button>
+      </form>
+            
+    </div>
+  </div>       
+</div>
+
+{% if date_error_bool == True or giga_error_bool == True %}
+  <div class="container-fluid my-2 justify-content-center" style="max-width: 1800px;">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-xl-10 p-4 text-black">
+        <p class="alert alert-danger">
+          Une ou plusieurs dates invalides, recherche réalisée entre le {{ final_date_min }} et le {{ final_date_max }}
+        </p>
+      </div>
+    </div>       
+  </div>
+{% endif %}
+
+<div class="container-fluid my-2 justify-content-center" style="max-width: 1800px;">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-xl-10 p-4 border rounded bg-light text-black">
+      <strong>GET</strong> {{ url }}
+    </div>
+  </div>       
+</div>
+
+<div class="container-fluid user-select-none my-4 justify-content-center" style="max-width: 1800px;">
+  <div class="row align-items-center justify-content-center">
+    <div class="col-xl-10 p-4 border border-white"> 
+      <p class="text-success"><strong class="text-light">
+        HTTP 200 OK</strong><br>
+        <strong class="text-light">Allow:</strong><strong> GET, OPTIONS</strong><br>
+        <strong class="text-light">Content-Type:</strong><strong> application/json</strong><br>
+        <strong class="text-light">Nombre d'éléments :</strong><strong> {{number_of_results}}</strong>
+      </p>
+      {% if empty_search_bool == False %}
+        <p>Exemple de valeur : </p>
+        {% autoescape off %}
+        <pre>{{ first_value|safe }}</pre>
+        {% endautoescape %}
+      {% elif empty_search_bool == True%}
+        <p class="text-danger"><strong>Aucun résultat pour ces critères de recherche</strong></p>
+      {% endif %}
+      <div class="col-xxl-5 d-flex mt-4">
+        <a type="submit" class="btn btn-secondary bg-dark-subtle mx-2" href="{{ url }}" target="_blank">Afficher<a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,8 @@
+kaleido
+pandas
+plotly
+boto3
+psycopg2-binary
+psutil
+requests
+botocore
