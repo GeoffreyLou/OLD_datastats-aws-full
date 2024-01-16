@@ -18,18 +18,18 @@ La sécurité de l'architrecture est assurée par un VPC composé de deux public
 # Contenu du repository
 
 - datastats : le projet Django qui est composé de deux sous applications
-  * Website : le back-end et front-end des pages web
-  * Authentication : le module spécifique lié à la gestion des utilisateurs
+  * **Website** : le back-end et front-end des pages web
+  * **Authentication** : le module spécifique lié à la gestion des utilisateurs
  
 - lambda functions : les différentes fonctions lambda utilisées dans ce projet.
-  * lambda_dashboard_all_jobs : création des images quand on sélectionne tous les métiers pour chaque région disponible
-  * lambda_dashboard_without_all : création des images pour chaque métier, on utilise ici AWS Stepfunction pour fournir une variable d'entrée à cette fonction qui est réutilisée pour chaque métier
-  * lambda_index_dashboard : création des images par défaut sur la page d'accueil du site et du dashboard
-  * cleaning_csv_files : fonction qui se charge de nettoyer chaque fichier csv provenant du webscraping
+  * **lambda_dashboard_all_jobs** : création des images quand on sélectionne tous les métiers pour chaque région disponible
+  * **lambda_dashboard_without_all** : création des images pour chaque métier, on utilise ici AWS Stepfunction pour fournir une variable d'entrée à cette fonction qui est réutilisée pour chaque métier
+  * **lambda_index_dashboard** : création des images par défaut sur la page d'accueil du site et du dashboard
+  * **cleaning_csv_files** : fonction qui se charge de nettoyer chaque fichier csv provenant du webscraping
  
 - python scripts : dossier comprenant des fichiers pythons
-  * database_cleaning : nettoyage de la base de données après ajout ou retrait d'une technologie des listes
-  * reporting : script qui permet de gérer l'envoi du reporting journalier
-  * city_error : script qui gère la table des villes n'ayant pas matché avec une région en base
+  * **database_cleaning** : nettoyage de la base de données après ajout ou retrait d'une technologie des listes
+  * **reporting** : script qui permet de gérer l'envoi du reporting journalier
+  * **city_error** : script qui gère la table des villes n'ayant pas matché avec une région en base
  
 - tests : dossier comprenant divers tests unitaires et d'intégration
