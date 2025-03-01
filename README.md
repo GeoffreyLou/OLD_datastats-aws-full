@@ -1,6 +1,9 @@
-# Datastats
+# IMPORTANT
 
-[Accédez à Datastats.fr](https://www.datastats.fr/)
+🔴🔴🔴 Ce projet n'est plus déployé sur AWS en raison des coûts élevés d'architecture. Il est actuellement refactorisé sur GCP, suivre les repositories débutant par "datastats-gcp-" 🔴🔴🔴
+
+
+# Datastats
 
 Datastats est un projet Data end-to-end construit dasn le cloud AWS. Il est composé d'un back-end complètement autonome qui se charge de récupérer plusieurs fois par jours les métiers liés à la data sur un site de recritement. Des fonctions Lambda se chargent ensuite de nettoyer les fichiers pour alimenter une base de données, quand d'autres se chargent de réaliser les graphiques une fois par mois. 
 
